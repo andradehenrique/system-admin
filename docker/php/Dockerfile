@@ -2,6 +2,8 @@ FROM php:8.1-apache
 
 ARG uid
 
+RUN usermod -u ${uid} www-data && groupmod -g ${uid} www-data;
+
 RUN apt-get update && \
   apt-get install -y libpng-dev git zlib1g-dev libzip-dev zip rpl \
   libapache2-mod-evasive && \
@@ -20,5 +22,3 @@ RUN rpl "AllowOverride None" "AllowOverride All" /etc/apache2/apache2.conf
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 COPY php.ini $PHP_INI_DIR/conf.d/
-
-RUN usermod -u ${uid} www-data && groupmod -g ${uid} www-data;

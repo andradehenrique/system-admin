@@ -1,8 +1,12 @@
 <?php
+
+use App\Helpers\HashHelper;
+
 require_once 'request.php';
 
 try
 {
+    $hashHelper = new HashHelper();
     $body['filters'] = [ ['login', '=', 'pedro'] ];
     $location = 'http://git/template/users';
     $user = request($location, 'GET', $body, 'Basic 123');
@@ -11,7 +15,7 @@ try
     {
         $body = ['name' => 'Pedro paulo',
                  'login' => 'pedro',
-                 'password' => md5('123'),
+                 'password' => $hashHelper->hash('123'),
                  'email' => 'pedro.paulo@teste.com',
                  'active' => '1' ];
         $location = 'http://git/template/users';

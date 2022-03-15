@@ -1,4 +1,7 @@
 <?php
+
+use App\Helpers\HashHelper;
+
 /**
  * SystemRegistrationForm
  *
@@ -130,11 +133,12 @@ class SystemRegistrationForm extends TPage
             {
                 throw new Exception(_t('The passwords do not match'));
             }
-            
+
+            $hashHelper = new HashHelper();
             $object = new SystemUser;
             $object->active = 'Y';
             $object->fromArray( $param );
-            $object->password = md5($object->password);
+            $object->password = $hashHelper->hash($object->password);
             $object->frontpage_id = $ini['permission']['default_screen'];
             $object->clearParts();
             $object->store();
