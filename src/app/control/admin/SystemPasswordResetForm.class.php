@@ -1,4 +1,6 @@
 <?php
+
+use App\Helpers\HashHelper;
 use \Firebase\JWT\JWT;
 
 /**
@@ -120,7 +122,8 @@ class SystemPasswordResetForm extends TPage
                 }
                 else
                 {
-                    $user->password = md5($param['password1']);
+                    $hashHelper = new HashHelper();
+                    $user->password = $hashHelper->hash($param['password1']);
                     $user->store();
                     
                     new TMessage('info', _t('The password has been changed'));

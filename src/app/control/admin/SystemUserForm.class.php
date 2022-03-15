@@ -1,4 +1,7 @@
 <?php
+
+use App\Helpers\HashHelper;
+
 /**
  * SystemUserForm
  *
@@ -178,8 +181,9 @@ class SystemUserForm extends TPage
             {
                 if( $object->password !== $param['repassword'] )
                     throw new Exception(_t('The passwords do not match'));
-                
-                $object->password = md5($object->password);
+
+                $hashHelper = new HashHelper();
+                $object->password = $hashHelper->hash($object->password);
             }
             else
             {

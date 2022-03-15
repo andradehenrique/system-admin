@@ -1,4 +1,7 @@
 <?php
+
+use App\Helpers\HashHelper;
+
 /**
  * SystemProfileForm
  *
@@ -93,8 +96,9 @@ class SystemProfileForm extends TPage
                 {
                     throw new Exception(_t('The passwords do not match'));
                 }
-                
-                $user->password = md5($object->password1);
+
+                $hashHelper = new HashHelper();
+                $user->password = $hashHelper->hash($object->password1);
             }
             else
             {

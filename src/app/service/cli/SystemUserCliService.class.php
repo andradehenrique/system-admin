@@ -1,4 +1,7 @@
 <?php
+
+use App\Helpers\HashHelper;
+
 class SystemUserCliService
 {
     /**
@@ -9,8 +12,9 @@ class SystemUserCliService
     {
         TTransaction::open('permission');
         $response = array();
-        
-        $request['password'] = md5($request['password']);
+
+        $hashHelper = new HashHelper();
+        $request['password'] = $hashHelper->hash($request['password']);
         
         $user = new SystemUser;
         $user->fromArray($request);

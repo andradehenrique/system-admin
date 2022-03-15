@@ -102,8 +102,8 @@ INSERT INTO system_program VALUES(40,'System Session dump','SystemSessionDumpVie
 INSERT INTO system_program VALUES(41,'System Information','SystemInformationView');
 INSERT INTO system_program VALUES(42,'System files diff','SystemFilesDiff');
 
-INSERT INTO system_user VALUES(1,'Administrator','admin','21232f297a57a5a743894a0e4a801fc3','admin@admin.net',10,NULL,'Y');
-INSERT INTO system_user VALUES(2,'User','user','ee11cbb19052e40b07aac0ca060c23ee','user@user.net',7,NULL,'Y');
+INSERT INTO system_user (id, name, login, password, email, frontpage_id, system_unit_id, active) VALUES(1,'Administrator','admin','$argon2i$v=19$m=65536,t=4,p=1$TndGVkJUbGE5MUQyWmdTZQ$OhN74IkobKXPAWv3LP+0wDf1rCObcYfhTjhR3ih1xUg','admin@admin.net',10,NULL,'Y');
+INSERT INTO system_user (id, name, login, password, email, frontpage_id, system_unit_id, active) VALUES(2,'User','user','$argon2i$v=19$m=65536,t=4,p=1$TFdxR0pqVVV6ZjhUdHhhRQ$9Igc3mWlUNLJYZ21lqaIk+TThQq9gXM7PUV+dGrihBw','user@user.net',7,NULL,'Y');
 
 INSERT INTO system_unit VALUES(1,'Unit A','unit_a');
 INSERT INTO system_unit VALUES(2,'Unit B','unit_b');
