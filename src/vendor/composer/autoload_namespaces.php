@@ -8,7 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'TPDFDesigner' => array($vendorDir . '/adianti/pdfdesigner'),
     'Spreadsheet' => array($vendorDir . '/pablodalloglio/spreadsheet_excel_writer'),
-    'Sabberworm\\CSS' => array($vendorDir . '/sabberworm/php-css-parser/lib'),
     'PHPRtfLite' => array($vendorDir . '/phprtflite/phprtflite/lib'),
     'OLE' => array($vendorDir . '/pablodalloglio/ole'),
     'FPDF' => array($vendorDir . '/pablodalloglio/fpdf'),
