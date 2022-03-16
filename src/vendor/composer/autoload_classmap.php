@@ -13,6 +13,8 @@ return array(
     'HTML5_Parser' => $vendorDir . '/dompdf/dompdf/lib/html5lib/Parser.php',
     'HTML5_Tokenizer' => $vendorDir . '/dompdf/dompdf/lib/html5lib/Tokenizer.php',
     'HTML5_TreeBuilder' => $vendorDir . '/dompdf/dompdf/lib/html5lib/TreeBuilder.php',
+    'Normalizer' => $vendorDir . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
+    'ReturnTypeWillChange' => $vendorDir . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
     'pQuery' => $vendorDir . '/tburry/pquery/pQuery.php',
     'pQuery\\AspEmbeddedNode' => $vendorDir . '/tburry/pquery/gan_node_html.php',
     'pQuery\\CSSQueryTokenizer' => $vendorDir . '/tburry/pquery/gan_selector_html.php',

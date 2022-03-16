@@ -22,3 +22,5 @@ RUN rpl "AllowOverride None" "AllowOverride All" /etc/apache2/apache2.conf
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 COPY php.ini $PHP_INI_DIR/conf.d/
+
+USER www-data
