@@ -13,8 +13,7 @@
     "pablodalloglio/ole": "dev-master",
     "pablodalloglio/spreadsheet_excel_writer": "dev-master",
     "pablodalloglio/fpdf": "dev-master",
-    "robmorgan/phinx": "^0.12.10",
-    "fzaninotto/faker": "^1.5"
+    "robmorgan/phinx": "^0.13.1"
   },
   "config": {
     "preferred-install": {
