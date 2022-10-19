@@ -85,3 +85,5 @@ fabric.properties
 # Docker mysql data
 mysql-data/
 
+src/vendor/
+
