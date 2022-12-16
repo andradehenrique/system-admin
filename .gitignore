@@ -87,3 +87,15 @@ mysql-data/
 
 src/vendor/
 
+!src/files/
+src/files/*
+!src/files/.htaccess
+!src/files/tickets/
+src/files/tickets/*
+!src/files/tickets/.htaccess
+!src/files/documents/
+src/files/documents/*
+!src/files/documents/.htaccess
+!src/files/tickets/issues/
+src/files/tickets/issues/*
+!src/files/tickets/issues/.htaccess
