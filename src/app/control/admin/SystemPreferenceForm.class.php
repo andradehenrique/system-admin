@@ -124,6 +124,7 @@ class SystemPreferenceForm extends TStandardForm
                 SystemUser::where('accepted_term_policy', '=', 'Y')
                             ->set('accepted_term_policy', 'N')
                             ->set('accepted_term_policy_at', '')
+                            ->set('accepted_term_policy_data', '')
                             ->update();
             }
             

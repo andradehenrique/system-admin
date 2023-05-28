@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SystemTableList
  *
@@ -25,10 +26,12 @@ class SystemTableList extends TPage
         $this->style = 'height: 100%';
         
         // create datagrid
-        $this->cards = new TCardView;
-        $this->cards->setContentHeight(50);
-        $this->cards->setItemHeight(50);
-        $this->cards->setItemTemplate('<b>{table}</b>');
+        $this->cards = new TIconView;
+        $this->cards->setIconAttribute('icon');
+        $this->cards->setLabelAttribute('title');
+        $this->cards->enableDoubleClick();
+        $this->cards->setInfoAttributes(['table', 'id', 'database']);
+        $this->cards->setItemTemplate(file_get_contents( 'app/resources/system_file_item.html'));
 
         $action1 = new TAction(array('SystemDataBrowser', 'onLoad'));
         $action1->setParameter('register_state', 'false');
@@ -45,9 +48,9 @@ class SystemTableList extends TPage
         $action3->setParameter('table', '{table}');
         $action3->setParameter('database', '{database}');
         
-        $this->cards->addAction($action1, 'View', 'fa:table');
-        $this->cards->addAction($action2, 'CSV', 'fa:download');
-        $this->cards->addAction($action3, 'SQL', 'fa:code');
+        $this->cards->addContextMenuOption('View', $action1, 'fa:table');
+        $this->cards->addContextMenuOption('CSV', $action2, 'fa:download');
+        $this->cards->addContextMenuOption('SQL', $action3, 'fa:code');
         
         $input_search = new TEntry('input_search');
         $input_search->placeholder = _t('Search');
@@ -58,11 +61,9 @@ class SystemTableList extends TPage
         $hbox->add( _t('Tables') )->style = 'flex: 1;';
         $hbox->add( $input_search )->style = 'flex: 1;';
         
-        $this->cards->enableSearch($input_search, 'table');
-        
         // panel group around datagrid
         $panel = new TPanelGroup( $hbox );
-        $panel->style = 'padding-bottom:8px; height: 100%';
+        $panel->style = 'padding-bottom:8px; height: 100%; position: unset';
         $panel->getBody()->style = 'overflow-y:auto';
         $panel->add($this->cards);
         
@@ -81,7 +82,7 @@ class SystemTableList extends TPage
             {
                 foreach ($tables as $table)
                 {
-                    $this->cards->addItem( (object) ['table' => $table, 'database' => $param['database'] ]);
+                    $this->cards->addItem( (object) ['title' => $table, 'id' => $table, 'table' => $table, 'database' => $param['database'], 'icon' => 'fas fa-table' ]);
                 }
             }
         }
@@ -142,6 +143,26 @@ class SystemTableList extends TPage
         {
             new TMessage('error', $e->getMessage());
         }
+    }
+
+    public function show()
+    {
+        parent::show();
+
+        TScript::create('$(".item-ellipsis").on("click", function(event) {
+            $(".popover").popover("hide");
+            $(".dropdown-iconview").hide();
+            var context_menu = $(this).closest("li").next("ul");
+            context_menu.css("left", ticonview_mouseX(event));
+            context_menu.css("top", ticonview_mouseY(event));
+            context_menu.show();
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+            });
+
+            __adianti_input_fuse_search("[name=input_search]", "table", ".ticonview li");
+        ');
     }
     
     /**

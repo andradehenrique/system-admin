@@ -56,6 +56,14 @@ class SystemMessageForm extends TWindow
         parent::add($container);
     }
     
+    public function onLoad($param)
+    {
+        $data = new stdClass;
+        $data->system_user_to_id = $param['system_user_to_id']??null;
+
+        TForm::sendData('form_SystemMessage', $data);
+    }
+
     public function onClear($param)
     {
     

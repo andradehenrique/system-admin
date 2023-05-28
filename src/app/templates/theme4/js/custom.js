@@ -193,6 +193,48 @@ function tdate_set_value(id, value)
     $(id).val(value);
 }
 
+$( document ).on( 'click', 'ul.dropdown-menu a[generator="adianti"]', function() {
+    $(this).parents(".dropdown.show").removeClass("show");
+    $(this).parents(".dropdown-menu.show").removeClass("show");
+});
+
+
+//==========================================================================================================================
+
+/* Input - Function ========================================================================================================
+*  You can manage the inputs(also textareas) with name of class 'form-control'
+*  
+*/
+$.AdminBSB.input = {
+    activate: function () {
+        //On focus event
+        $('.form-control').focus(function () {
+            // Exclude date picker
+            if ( ! $(this).parent().hasClass('tdate-group') ) {
+                // add on .formline
+                $(this).parents('.form-line').addClass('focused');
+            }
+        });
+
+        //On focusout event
+        $('.form-control').focusout(function () {
+            var $this = $(this);
+            if ($this.parents('.form-group').hasClass('form-float')) {
+                if ($this.val() == '') { $this.parents('.form-line').removeClass('focused'); }
+            }
+            else {
+                $this.parents('.form-line').removeClass('focused');
+            }
+        });
+
+        //On label click
+        $('body').on('click', '.form-float .form-line .form-label', function () {
+            $(this).parent().find('input').focus();
+        });
+
+    }
+}
+
 function searchMenu() {
     let inputSearch = document.querySelector('#search-menu');
     let listMenu = document.querySelectorAll('.menu ul.list li');
@@ -244,9 +286,4 @@ function searchMenu() {
 
 window.addEventListener('DOMContentLoaded', (event) => {
     searchMenu();
-});
-
-$( document ).on( 'click', 'ul.dropdown-menu a[generator="adianti"]', function() {
-    $(this).parents(".dropdown.show").removeClass("show");
-    $(this).parents(".dropdown-menu.show").removeClass("show");
 });

@@ -30,16 +30,25 @@ class SystemMessage extends TRecord
         parent::addAttribute('checked');
     }
     
+    /**
+     * Get source user
+     */
     public function get_user_from()
     {
         return SystemUser::findInTransaction('permission', $this->system_user_id);
     }
     
+    /**
+     * Get target user
+     */
     public function get_user_to()
     {
         return SystemUser::findInTransaction('permission', $this->system_user_to_id);
     }
     
+    /**
+     * Get the another user
+     */
     public function get_user_mixed()
     {
         if ($this->system_user_id == TSession::getValue('userid'))

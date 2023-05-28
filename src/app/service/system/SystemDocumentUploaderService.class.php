@@ -11,15 +11,49 @@
  */
 class SystemDocumentUploaderService
 {
+    public static function getFontAwesomeIcon($file_path)
+    {
+        $content_type_list = array();
+        $content_type_list['text/plain']  = 'far fa-file-alt';
+        $content_type_list['text/html'] = 'far fa-file-code';
+        $content_type_list['text/csv']  = 'fas fa-file-csv';
+        $content_type_list['application/pdf']  = 'far fa-file-pdf';
+        $content_type_list['application/zip']  = 'far fa-file-archive';
+        $content_type_list['application/x-bzip']  = 'far fa-file-archive';
+        $content_type_list['application/x-bzip2'] = 'far fa-file-archive';
+        $content_type_list['application/x-tar'] = 'far fa-file-archive';
+        $content_type_list['application/x-rar-compressed']  = 'far fa-file-archive';
+        $content_type_list['application/rtf']  = 'far fa-file-word';
+        $content_type_list['application/csv']  = 'fas fa-file-csv';
+        $content_type_list['application/msword']  = 'far fa-file-word';
+        $content_type_list['application/vnd.openxmlformats-officedocument.wordprocessingml.document'] = 'far fa-file-word';
+        $content_type_list['application/vnd.ms-excel']  = 'far fa-file-excel';
+        $content_type_list['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'] = 'far fa-file-excel';
+        $content_type_list['application/vnd.ms-powerpoint']  = 'far fa-file-powerpoint';
+        $content_type_list['application/vnd.openxmlformats-officedocument.presentationml.presentation'] = 'far fa-file-powerpoint';
+        $content_type_list['application/vnd.oasis.opendocument.text']  = 'far fa-file-word';
+        $content_type_list['application/vnd.oasis.opendocument.spreadsheet']  = 'far fa-file-word';
+        $content_type_list['image/jpeg'] = 'far fa-file-image';
+        $content_type_list['image/jpg'] = 'far fa-file-image';
+        $content_type_list['image/png'] = 'far fa-file-image';
+        $content_type_list['image/gif'] = 'far fa-file-image';
+        $content_type_list['image/svg+xml'] = 'far fa-file-code';
+        $content_type_list['application/xml'] = 'far fa-file-code';
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $icon = $content_type_list[$finfo->file($file_path)]??'far fa-file';
+        
+        return $icon;
+    }
+
     function show()
     {
         $content_type_list = array();
         $content_type_list['txt']  = 'text/plain';
         $content_type_list['html'] = 'text/html';
+        $content_type_list['csv']  = 'text/csv';
         $content_type_list['pdf']  = 'application/pdf';
-        $content_type_list['zip']  = 'application/zip';
         $content_type_list['rtf']  = 'application/rtf';
-        $content_type_list['csv']  = 'application/csv';
         $content_type_list['doc']  = 'application/msword';
         $content_type_list['docx'] = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
         $content_type_list['xls']  = 'application/vnd.ms-excel';
@@ -28,6 +62,17 @@ class SystemDocumentUploaderService
         $content_type_list['pptx'] = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
         $content_type_list['odt']  = 'application/vnd.oasis.opendocument.text';
         $content_type_list['ods']  = 'application/vnd.oasis.opendocument.spreadsheet';
+        $content_type_list['jpeg'] = 'image/jpeg';
+        $content_type_list['jpg']  = 'image/jpeg';
+        $content_type_list['png']  = 'image/png';
+        $content_type_list['gif']  = 'image/gif';
+        $content_type_list['svg']  = 'image/svg+xml';
+        $content_type_list['xml']  = 'application/xml';
+        $content_type_list['zip']  = 'application/zip';
+        $content_type_list['rar']  = 'application/x-rar-compressed';
+        $content_type_list['bz']   = 'application/x-bzip';
+        $content_type_list['bz2']  = 'application/x-bzip2';
+        $content_type_list['tar']  = 'application/x-tar';
         
         $block_extensions = ['php', 'php3', 'php4', 'phtml', 'pl', 'py', 'jsp', 'asp', 'htm', 'shtml', 'sh', 'cgi', 'htaccess'];
         

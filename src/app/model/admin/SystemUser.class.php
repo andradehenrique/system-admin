@@ -1,6 +1,6 @@
 <?php
 
-use App\Helpers\HashHelper;
+use App\Helpers\PasswordHelper;
 
 /**
  * SystemUser
@@ -15,11 +15,11 @@ use App\Helpers\HashHelper;
 class SystemUser extends TRecord
 {
     const TABLENAME = 'system_user';
-    const PRIMARYKEY= 'id';
+    const PRIMARYKEY = 'id';
     const IDPOLICY =  'max'; // {max, serial}
-    
+
     // use SystemChangeLogTrait;
-    
+
     private $frontpage;
     private $unit;
     private $system_user_groups = array();
@@ -36,13 +36,26 @@ class SystemUser extends TRecord
         parent::addAttribute('login');
         parent::addAttribute('password');
         parent::addAttribute('email');
+        parent::addAttribute('phone');
+        parent::addAttribute('address');
+        parent::addAttribute('function_name');
+        parent::addAttribute('about');
         parent::addAttribute('frontpage_id');
         parent::addAttribute('system_unit_id');
         parent::addAttribute('active');
         parent::addAttribute('accepted_term_policy');
         parent::addAttribute('accepted_term_policy_at');
+        parent::addAttribute('accepted_term_policy_data');
     }
-    
+
+    /**
+     * Returns the phone trimmed
+     */
+    public function get_phone_trim()
+    {
+        return preg_replace("/[^0-9]/", '', $this->phone ?? '');
+    }
+
     /**
      * Clone the entire object and related ones
      */
@@ -51,36 +64,30 @@ class SystemUser extends TRecord
         $groups   = $this->getSystemUserGroups();
         $units    = $this->getSystemUserUnits();
         $programs = $this->getSystemUserPrograms();
-        
+
         unset($this->id);
         $this->name .= ' (clone)';
         $this->store();
-        
-        if ($groups)
-        {
-            foreach ($groups as $group)
-            {
-                $this->addSystemUserGroup( $group );
+
+        if ($groups) {
+            foreach ($groups as $group) {
+                $this->addSystemUserGroup($group);
             }
         }
-        
-        if ($units)
-        {
-            foreach ($units as $unit)
-            {
-                $this->addSystemUserUnit( $unit );
+
+        if ($units) {
+            foreach ($units as $unit) {
+                $this->addSystemUserUnit($unit);
             }
         }
-        
-        if ($programs)
-        {
-            foreach ($programs as $program)
-            {
-                $this->addSystemUserProgram( $program );
+
+        if ($programs) {
+            foreach ($programs as $program) {
+                $this->addSystemUserProgram($program);
             }
         }
     }
-    
+
     /**
      * Returns the frontpage name
      */
@@ -89,11 +96,11 @@ class SystemUser extends TRecord
         // loads the associated object
         if (empty($this->frontpage))
             $this->frontpage = new SystemProgram($this->frontpage_id);
-    
+
         // returns the associated object
         return $this->frontpage->name;
     }
-    
+
     /**
      * Returns the frontpage
      */
@@ -102,12 +109,12 @@ class SystemUser extends TRecord
         // loads the associated object
         if (empty($this->frontpage))
             $this->frontpage = new SystemProgram($this->frontpage_id);
-    
+
         // returns the associated object
         return $this->frontpage;
     }
-    
-   /**
+
+    /**
      * Returns the unit
      */
     public function get_unit()
@@ -115,11 +122,11 @@ class SystemUser extends TRecord
         // loads the associated object
         if (empty($this->unit))
             $this->unit = new SystemUnit($this->system_unit_id);
-    
+
         // returns the associated object
         return $this->unit;
     }
-    
+
     /**
      * Add a Group to the user
      * @param $object Instance of SystemGroup
@@ -131,7 +138,7 @@ class SystemUser extends TRecord
         $object->system_user_id = $this->id;
         $object->store();
     }
-    
+
     /**
      * Add a Unit to the user
      * @param $object Instance of SystemUnit
@@ -143,7 +150,7 @@ class SystemUser extends TRecord
         $object->system_user_id = $this->id;
         $object->store();
     }
-    
+
     /**
      * Return the user' group's
      * @return Collection of SystemGroup
@@ -152,7 +159,7 @@ class SystemUser extends TRecord
     {
         return parent::loadAggregate('SystemGroup', 'SystemUserGroup', 'system_user_id', 'system_group_id', $this->id);
     }
-    
+
     /**
      * Return the user' unit's
      * @return Collection of SystemUnit
@@ -161,7 +168,7 @@ class SystemUser extends TRecord
     {
         return parent::loadAggregate('SystemUnit', 'SystemUserUnit', 'system_user_id', 'system_unit_id', $this->id);
     }
-    
+
     /**
      * Add a program to the user
      * @param $object Instance of SystemProgram
@@ -173,7 +180,7 @@ class SystemUser extends TRecord
         $object->system_user_id = $this->id;
         $object->store();
     }
-    
+
     /**
      * Return the user' program's
      * @return Collection of SystemProgram
@@ -182,53 +189,47 @@ class SystemUser extends TRecord
     {
         return parent::loadAggregate('SystemProgram', 'SystemUserProgram', 'system_user_id', 'system_program_id', $this->id);
     }
-    
+
     /**
      * Get user group ids
      */
-    public function getSystemUserGroupIds( $as_string = false )
+    public function getSystemUserGroupIds($as_string = false)
     {
         $groupids = array();
         $groups = $this->getSystemUserGroups();
-        if ($groups)
-        {
-            foreach ($groups as $group)
-            {
+        if ($groups) {
+            foreach ($groups as $group) {
                 $groupids[] = $group->id;
             }
         }
-        
-        if ($as_string)
-        {
+
+        if ($as_string) {
             return implode(',', $groupids);
         }
-        
+
         return $groupids;
     }
-    
+
     /**
      * Get user unit ids
      */
-    public function getSystemUserUnitIds( $as_string = false )
+    public function getSystemUserUnitIds($as_string = false)
     {
         $unitids = array();
         $units = $this->getSystemUserUnits();
-        if ($units)
-        {
-            foreach ($units as $unit)
-            {
+        if ($units) {
+            foreach ($units as $unit) {
                 $unitids[] = $unit->id;
             }
         }
-        
-        if ($as_string)
-        {
+
+        if ($as_string) {
             return implode(',', $unitids);
         }
-        
+
         return $unitids;
     }
-    
+
     /**
      * Get user group names
      */
@@ -236,17 +237,15 @@ class SystemUser extends TRecord
     {
         $groupnames = array();
         $groups = $this->getSystemUserGroups();
-        if ($groups)
-        {
-            foreach ($groups as $group)
-            {
+        if ($groups) {
+            foreach ($groups as $group) {
                 $groupnames[] = $group->name;
             }
         }
-        
+
         return implode(',', $groupnames);
     }
-    
+
     /**
      * Reset aggregates
      */
@@ -256,7 +255,7 @@ class SystemUser extends TRecord
         SystemUserUnit::where('system_user_id', '=', $this->id)->delete();
         SystemUserProgram::where('system_user_id', '=', $this->id)->delete();
     }
-    
+
     /**
      * Delete the object and its aggregates
      * @param $id object ID
@@ -265,15 +264,15 @@ class SystemUser extends TRecord
     {
         // delete the related System_userSystem_user_group objects
         $id = isset($id) ? $id : $this->id;
-        
+
         SystemUserGroup::where('system_user_id', '=', $id)->delete();
         SystemUserUnit::where('system_user_id', '=', $id)->delete();
         SystemUserProgram::where('system_user_id', '=', $id)->delete();
-        
+
         // delete the object itself
         parent::delete($id);
     }
-    
+
     /**
      * Validate user login
      * @param $login String with user login
@@ -281,22 +280,18 @@ class SystemUser extends TRecord
     public static function validate($login)
     {
         $user = self::newFromLogin($login);
-        
-        if ($user instanceof SystemUser)
-        {
-            if ($user->active == 'N')
-            {
+
+        if ($user instanceof SystemUser) {
+            if ($user->active == 'N') {
                 throw new Exception(_t('Inactive user'));
             }
-        }
-        else
-        {
+        } else {
             throw new Exception(_t('User not found'));
         }
-        
+
         return $user;
     }
-    
+
     /**
      * Authenticate the user
      * @param $login String with user login
@@ -306,15 +301,13 @@ class SystemUser extends TRecord
     public static function authenticate($login, $password)
     {
         $user = self::newFromLogin($login);
-        $hashHelper = new HashHelper();
-        if (!$hashHelper->verify($password, $user->password))
-        {
-            throw new Exception(_t('Wrong password'));
+        if (!PasswordHelper::verify($password, $user->password)) {
+            throw new Exception(_t('Incorrect username or password'));
         }
-        
+
         return $user;
     }
-    
+
     /**
      * Returns a SystemUser object based on its login
      * @param $login String with user login
@@ -323,7 +316,7 @@ class SystemUser extends TRecord
     {
         return SystemUser::where('login', '=', $login)->first();
     }
-    
+
     /**
      * Returns a SystemUser object based on its e-mail
      * @param $email String with user email
@@ -332,83 +325,72 @@ class SystemUser extends TRecord
     {
         return SystemUser::where('email', '=', $email)->first();
     }
-    
+
     /**
      * Return the programs the user has permission to run
      */
     public function getPrograms()
     {
         $programs = array();
-        
-        foreach( $this->getSystemUserGroups() as $group )
-        {
-            foreach( $group->getSystemPrograms() as $prog )
-            {
+
+        foreach ($this->getSystemUserGroups() as $group) {
+            foreach ($group->getSystemPrograms() as $prog) {
                 $programs[$prog->controller] = true;
             }
         }
-                
-        foreach( $this->getSystemUserPrograms() as $prog )
-        {
+
+        foreach ($this->getSystemUserPrograms() as $prog) {
             $programs[$prog->controller] = true;
         }
-        
+
         return $programs;
     }
-    
+
     /**
      * Return the programs the user has permission to run
      */
     public function getProgramsList()
     {
         $programs = array();
-        
-        foreach( $this->getSystemUserGroups() as $group )
-        {
-            foreach( $group->getSystemPrograms() as $prog )
-            {
+
+        foreach ($this->getSystemUserGroups() as $group) {
+            foreach ($group->getSystemPrograms() as $prog) {
                 $programs[$prog->controller] = $prog->name;
             }
         }
-                
-        foreach( $this->getSystemUserPrograms() as $prog )
-        {
+
+        foreach ($this->getSystemUserPrograms() as $prog) {
             $programs[$prog->controller] = $prog->name;
         }
-        
+
         asort($programs);
         return $programs;
     }
-    
+
     /**
      * Check if the user is within a group
      */
-    public function checkInGroup( SystemGroup $group )
+    public function checkInGroup(SystemGroup $group)
     {
         $user_groups = array();
-        foreach( $this->getSystemUserGroups() as $user_group )
-        {
+        foreach ($this->getSystemUserGroups() as $user_group) {
             $user_groups[] = $user_group->id;
         }
-    
+
         return in_array($group->id, $user_groups);
     }
-    
+
     /**
-     *
+     * Return user inside these groups
      */
-    public static function getInGroups( $groups )
+    public static function getInGroups($groups)
     {
         $collection = [];
         $users = self::all();
-        if ($users)
-        {
-            foreach ($users as $user)
-            {
-                foreach ($groups as $group)
-                {
-                    if ($user->checkInGroup($group))
-                    {
+        if ($users) {
+            foreach ($users as $user) {
+                foreach ($groups as $group) {
+                    if ($user->checkInGroup($group)) {
                         $collection[] = $user;
                     }
                 }

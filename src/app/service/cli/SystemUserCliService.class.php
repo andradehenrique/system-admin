@@ -1,6 +1,6 @@
 <?php
 
-use App\Helpers\HashHelper;
+use App\Helpers\PasswordHelper;
 
 class SystemUserCliService
 {
@@ -8,14 +8,13 @@ class SystemUserCliService
      * Retorna todos produtos entre $from e $to
      * @param $request HTTP request
      */
-    public static function create( $request )
+    public static function create($request)
     {
         TTransaction::open('permission');
         $response = array();
 
-        $hashHelper = new HashHelper();
-        $request['password'] = $hashHelper->hash($request['password']);
-        
+        $request['password'] = PasswordHelper::hash($request['password']);
+
         $user = new SystemUser;
         $user->fromArray($request);
         $user->store();

@@ -13,6 +13,10 @@ class ApplicationAuthenticationService
         TTransaction::open('permission');
         $user = SystemUser::validate( $login );
         
+        // call loaders to made available this attrs outside transactions
+        $user->get_unit();
+        $user->get_frontpage();
+        
         if ($user)
         {
             if (!empty($ini['permission']['auth_service']) and class_exists($ini['permission']['auth_service']))
@@ -24,11 +28,20 @@ class ApplicationAuthenticationService
             {
                 SystemUser::authenticate( $login, $password );
             }
+
+            if (SystemUserOldPassword::needRenewal($user->id))
+            {
+                TSession::setValue('login', $user->login);
+                TSession::setValue('userid', $user->id);
+                TSession::setValue('need_renewal_password', true);
+            }
+            else
+            {
+                self::loadSessionVars($user);
+            }
             
-            self::loadSessionVars($user);
             
-            // register REST profile
-            // SystemAccessLog::registerLogin();
+            TTransaction::close();
             
             return $user;
         }
@@ -87,6 +100,7 @@ class ApplicationAuthenticationService
         $programs = $user->getPrograms();
         $programs['LoginForm'] = TRUE;
         
+        TSession::setValue('need_renewal_password', false);
         TSession::setValue('logged', TRUE);
         TSession::setValue('login', $user->login);
         TSession::setValue('userid', $user->id);

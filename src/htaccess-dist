@@ -66,21 +66,6 @@ RewriteRule ^system-preferences$ index.php?class=SystemPreferenceForm&method=onE
 RewriteRule ^xhr-system-preferences$ engine.php?class=SystemPreferenceForm&method=onEdit&%{QUERY_STRING} [NC]
 
 
-RewriteRule ^system-document-upload$ index.php?class=SystemDocumentUploadForm&%{QUERY_STRING} [NC]
-RewriteRule ^xhr-system-document-upload$ engine.php?class=SystemDocumentUploadForm&%{QUERY_STRING} [NC]
-
-
-RewriteRule ^system-document-list$ index.php?class=SystemDocumentList&method=onReload&%{QUERY_STRING} [NC]
-RewriteRule ^system-document-edit$ index.php?class=SystemDocumentForm&method=onEdit&%{QUERY_STRING} [NC]
-RewriteRule ^system-document-ondelete$ index.php?class=SystemDocumentList&method=onDelete&%{QUERY_STRING} [NC]
-RewriteRule ^system-document-delete$ index.php?class=SystemDocumentList&method=Delete&%{QUERY_STRING} [NC]
-
-RewriteRule ^xhr-system-document-list$ engine.php?class=SystemDocumentList&method=onReload&%{QUERY_STRING} [NC]
-RewriteRule ^xhr-system-document-edit$ engine.php?class=SystemDocumentForm&method=onEdit&%{QUERY_STRING} [NC]
-RewriteRule ^xhr-system-document-ondelete$ engine.php?class=SystemDocumentList&method=onDelete&%{QUERY_STRING} [NC]
-RewriteRule ^xhr-system-document-delete$ engine.php?class=SystemDocumentList&method=Delete&%{QUERY_STRING} [NC]
-
-
 RewriteRule ^system-document-category-list$ index.php?class=SystemDocumentCategoryFormList&method=onReload&%{QUERY_STRING} [NC]
 RewriteRule ^system-document-category-edit$ index.php?class=SystemDocumentCategoryFormList&method=onEdit&%{QUERY_STRING} [NC]
 RewriteRule ^system-document-category-ondelete$ index.php?class=SystemDocumentCategoryFormList&method=onDelete&%{QUERY_STRING} [NC]
@@ -150,6 +135,27 @@ RewriteRule ^xhr-system-notification-form-view$ engine.php?class=SystemNotificat
 RewriteRule ^system-notification-list$ index.php?class=SystemNotificationList&method=onReload&%{QUERY_STRING} [NC]
 RewriteRule ^xhr-system-notification-list$ engine.php?class=SystemNotificationList&method=onReload&%{QUERY_STRING} [NC]
 
+RewriteRule ^system-files-diff$ index.php?class=SystemFilesDiff&method=onReload&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-system-files-diff$ engine.php?class=SystemFilesDiff&method=onReload&%{QUERY_STRING} [NC]
+
+RewriteRule ^system-information-view$ index.php?class=SystemInformationView&method=onShow&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-system-information-view$ engine.php?class=SystemInformationView&method=onShow&%{QUERY_STRING} [NC]
+
+RewriteRule ^system-wiki-list$ index.php?class=SystemWikiList&method=onReload&%{QUERY_STRING} [NC]
+RewriteRule ^system-wiki-edit$ index.php?class=SystemWikiList&method=onEdit&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-system-wiki-list$ engine.php?class=SystemWikiList&method=onReload&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-system-wiki-edit$ engine.php?class=SystemWikiList&method=onEdit&%{QUERY_STRING} [NC]
+
+RewriteRule ^system-post-list$ index.php?class=SystemPostList&method=onReload&%{QUERY_STRING} [NC]
+RewriteRule ^system-post-edit$ index.php?class=SystemPostList&method=onEdit&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-system-post-list$ engine.php?class=SystemPostList&method=onReload&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-system-post-edit$ engine.php?class=SystemPostList&method=onEdit&%{QUERY_STRING} [NC]
+
+RewriteRule ^system-post-feed$ index.php?class=SystemPostFeedView&method=onReload&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-system-post-feed$ engine.php?class=SystemPostFeedView&method=onReload&%{QUERY_STRING} [NC]
+
+RewriteRule ^system-wiki-search$ index.php?class=SystemWikiSearchList&method=onReload&%{QUERY_STRING} [NC]
+RewriteRule ^xhr-system-wiki-search$ engine.php?class=SystemWikiSearchList&method=onReload&%{QUERY_STRING} [NC]
 
 #AUTH routes
 RewriteRule ^auth/([A-Za-z0-9]*)/([A-Za-z0-9]*)$ rest.php?class=ApplicationAuthenticationRestService&method=getToken&login=$1&password=$2&%{QUERY_STRING} [NC]

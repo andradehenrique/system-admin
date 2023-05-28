@@ -1,5 +1,5 @@
 # system-admin
-Projeto base do Adianti Template 7.4.1
+Projeto base do Adianti Template 7.5.1b
 
 ## Requisitos
 - Docker PHP 8.1 FPM + Nginx
@@ -7,6 +7,6 @@ Projeto base do Adianti Template 7.4.1
  
 ## Modificações
 - Hash de senha de MD5 para Argon 2
-- <code>/src/app/database/fix.sql</code> no entrypoint de MySQL pra criar tabela faltante <code>system_access_notification_log.</code>
+- <code>src/app/lib/validator/HPasswordValidator.class.php</code> pattern senha segura
 - Migration e Seeder com PHP Phinx
 - Filtro de itens de menu -> [Demonstração da funcionalidade](https://youtu.be/ZcbmnRd0coQ)

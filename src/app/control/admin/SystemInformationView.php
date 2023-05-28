@@ -662,7 +662,7 @@ class SystemInformationView extends TPage
         $settings['show']['process_stats'] = true;
         $settings['show']['hostname'] = true;
         $settings['show']['distro'] = true; # Attempt finding name and version of distribution on Linux systems
-        $settings['show']['devices'] = true; # Slow on old systems
+        $settings['show']['devices'] = false; # Slow on old systems
         $settings['show']['model'] = true; # Model of system. Supported on certain OS's. ex: Macbook Pro
         $settings['show']['numLoggedIn'] = true; # Number of unqiue users with shells running (on Linux)
         $settings['show']['virtualization'] = true; # whether this is a VPS/VM and what kind
@@ -839,5 +839,9 @@ class SystemInformationView extends TPage
             cpu_usage.height(max_height);
             ram_memory.height(max_height);
         ");
+    }
+    
+    public function onLoad()
+    {
     }
 }

@@ -24,7 +24,12 @@ CREATE TABLE system_user (
     password varchar(100),
     email varchar(100),
     accepted_term_policy char(1),
+    phone TEXT,
+    address TEXT,
+    function_name TEXT,
+    about TEXT,
     accepted_term_policy_at TEXT,
+    accepted_term_policy_data TEXT,
     frontpage_id int, system_unit_id int references system_unit(id), active char(1),
     FOREIGN KEY(frontpage_id) REFERENCES system_program(id));
     
@@ -56,6 +61,13 @@ CREATE TABLE system_user_program (
     FOREIGN KEY(system_user_id) REFERENCES system_user(id),
     FOREIGN KEY(system_program_id) REFERENCES system_program(id));
         
+CREATE TABLE system_user_old_password (
+    id INTEGER PRIMARY KEY NOT NULL,
+    system_user_id int,
+    password TEXT,
+    created_at timestamp,
+    FOREIGN KEY(system_user_id) REFERENCES system_user(id));
+
 INSERT INTO system_group VALUES(1,'Admin');
 INSERT INTO system_group VALUES(2,'Standard');
 
@@ -80,10 +92,7 @@ INSERT INTO system_program VALUES(18,'System Message Form View','SystemMessageFo
 INSERT INTO system_program VALUES(19,'System Notification List','SystemNotificationList');
 INSERT INTO system_program VALUES(20,'System Notification Form View','SystemNotificationFormView');
 INSERT INTO system_program VALUES(21,'System Document Category List','SystemDocumentCategoryFormList');
-INSERT INTO system_program VALUES(22,'System Document Form','SystemDocumentForm');
-INSERT INTO system_program VALUES(23,'System Document Upload Form','SystemDocumentUploadForm');
-INSERT INTO system_program VALUES(24,'System Document List','SystemDocumentList');
-INSERT INTO system_program VALUES(25,'System Shared Document List','SystemSharedDocumentList');
+
 INSERT INTO system_program VALUES(26,'System Unit Form','SystemUnitForm');
 INSERT INTO system_program VALUES(27,'System Unit List','SystemUnitList');
 INSERT INTO system_program VALUES(28,'System Access stats','SystemAccessLogStats');
@@ -101,9 +110,27 @@ INSERT INTO system_program VALUES(39,'System Log Dashboard','SystemLogDashboard'
 INSERT INTO system_program VALUES(40,'System Session dump','SystemSessionDumpView');
 INSERT INTO system_program VALUES(41,'System Information','SystemInformationView');
 INSERT INTO system_program VALUES(42,'System files diff','SystemFilesDiff');
+INSERT INTO system_program VALUES(43,'System Documents','SystemDriveList');
+INSERT INTO system_program VALUES(44,'System Folder form','SystemFolderForm');
+INSERT INTO system_program VALUES(45,'System Share folder','SystemFolderShareForm');
+INSERT INTO system_program VALUES(46,'System Share document','SystemDocumentShareForm');
+INSERT INTO system_program VALUES(47,'System Document properties','SystemDocumentFormWindow');
+INSERT INTO system_program VALUES(48,'System Folder properties','SystemFolderFormView');
+INSERT INTO system_program VALUES(49,'System Document upload','SystemDriveDocumentUploadForm');
 
-INSERT INTO system_user (id, name, login, password, email, frontpage_id, system_unit_id, active) VALUES(1,'Administrator','admin','$argon2i$v=19$m=65536,t=4,p=1$TndGVkJUbGE5MUQyWmdTZQ$OhN74IkobKXPAWv3LP+0wDf1rCObcYfhTjhR3ih1xUg','admin@admin.net',10,NULL,'Y');
-INSERT INTO system_user (id, name, login, password, email, frontpage_id, system_unit_id, active) VALUES(2,'User','user','$argon2i$v=19$m=65536,t=4,p=1$TFdxR0pqVVV6ZjhUdHhhRQ$9Igc3mWlUNLJYZ21lqaIk+TThQq9gXM7PUV+dGrihBw','user@user.net',7,NULL,'Y');
+INSERT INTO system_program VALUES(52,'System Post list', 'SystemPostList');
+INSERT INTO system_program VALUES(53,'System Post form', 'SystemPostForm');
+INSERT INTO system_program VALUES(54,'Post View list', 'SystemPostFeedView');
+INSERT INTO system_program VALUES(55,'Post Comment form', 'SystemPostCommentForm');
+INSERT INTO system_program VALUES(56,'Post Comment list', 'SystemPostCommentList');
+INSERT INTO system_program VALUES(57,'System Contacts list', 'SystemContactsList');
+INSERT INTO system_program VALUES(58,'System Wiki list', 'SystemWikiList');
+INSERT INTO system_program VALUES(59,'System Wiki form', 'SystemWikiForm');
+INSERT INTO system_program VALUES(60,'System Wiki search', 'SystemWikiSearchList');
+INSERT INTO system_program VALUES(61,'System Wiki view', 'SystemWikiView');
+
+INSERT INTO system_user VALUES(1,'Administrator','admin','$argon2id$v=19$m=65536,t=4,p=1$NDAyWldsRGttZC9OUEw1Yw$US+FbKQPka7CcbjjJXcSSoxY/0Mj8qG2bCfe6jrO180','admin@admin.net','Y','+123 456 789','Admin Street, 123','Administrator','I''m the administrator',NULL,NULL,10,NULL,'Y');
+INSERT INTO system_user VALUES(2,'User','user','$argon2id$v=19$m=65536,t=4,p=1$Wk96SFBVRVg4M1ZuZU5XTw$4AktJ6YtubB/wVMGAX1nvUyMgr+Vp/o3Xp42WPLWHTU','user@user.net','Y','+123 456 789','User Street, 123','End user','I''m the end user',NULL,NULL,7,NULL,'Y');
 
 INSERT INTO system_unit VALUES(1,'Unit A','unit_a');
 INSERT INTO system_unit VALUES(2,'Unit B','unit_b');
@@ -137,10 +164,7 @@ INSERT INTO system_group_program VALUES(17,2,18);
 INSERT INTO system_group_program VALUES(18,2,19);
 INSERT INTO system_group_program VALUES(19,2,20);
 INSERT INTO system_group_program VALUES(20,1,21);
-INSERT INTO system_group_program VALUES(21,2,22);
-INSERT INTO system_group_program VALUES(22,2,23);
-INSERT INTO system_group_program VALUES(23,2,24);
-INSERT INTO system_group_program VALUES(24,2,25);
+
 INSERT INTO system_group_program VALUES(25,1,26);
 INSERT INTO system_group_program VALUES(26,1,27);
 INSERT INTO system_group_program VALUES(27,1,28);
@@ -158,7 +182,39 @@ INSERT INTO system_group_program VALUES(39,1,39);
 INSERT INTO system_group_program VALUES(40,1,40);
 INSERT INTO system_group_program VALUES(41,1,41);
 INSERT INTO system_group_program VALUES(42,1,42);
+INSERT INTO system_group_program VALUES(43,1,43);
+INSERT INTO system_group_program VALUES(44,1,44);
+INSERT INTO system_group_program VALUES(45,1,45);
+INSERT INTO system_group_program VALUES(46,1,46);
+INSERT INTO system_group_program VALUES(47,1,47);
+INSERT INTO system_group_program VALUES(48,1,48);
+INSERT INTO system_group_program VALUES(49,1,49);
 
+INSERT INTO system_group_program VALUES(52,1,52);
+INSERT INTO system_group_program VALUES(53,1,53);
+INSERT INTO system_group_program VALUES(54,1,54);
+INSERT INTO system_group_program VALUES(55,1,55);
+INSERT INTO system_group_program VALUES(56,1,56);
+INSERT INTO system_group_program VALUES(57,1,57);
+INSERT INTO system_group_program VALUES(58,1,58);
+INSERT INTO system_group_program VALUES(59,1,59);
+INSERT INTO system_group_program VALUES(60,1,60);
+INSERT INTO system_group_program VALUES(61,1,61);
+
+INSERT INTO system_group_program VALUES(62,2,54);
+INSERT INTO system_group_program VALUES(63,2,60);
+
+INSERT INTO system_group_program VALUES(64,2,43);
+INSERT INTO system_group_program VALUES(65,2,44);
+INSERT INTO system_group_program VALUES(66,2,45);
+INSERT INTO system_group_program VALUES(67,2,46);
+INSERT INTO system_group_program VALUES(68,2,47);
+INSERT INTO system_group_program VALUES(69,2,48);
+INSERT INTO system_group_program VALUES(70,2,49);
+INSERT INTO system_group_program VALUES(71,2,55);
+INSERT INTO system_group_program VALUES(72,2,56);
+INSERT INTO system_group_program VALUES(73,2,61);
+                                        
 INSERT INTO system_user_program VALUES(1,2,7);
 
 CREATE INDEX sys_user_program_idx ON system_user(frontpage_id);

@@ -103,7 +103,7 @@ class SystemUserList extends TStandardList
             $label = ($value=='N') ? _t('No') : _t('Yes');
             $div = new TElement('span');
             $div->class="label label-{$class}";
-            $div->style="text-shadow:none; font-size:12px; font-weight:lighter";
+            $div->style="text-shadow:none; font-size:10pt;";
             $div->add($label);
             return $div;
         });
@@ -114,13 +114,32 @@ class SystemUserList extends TStandardList
             $div = new TElement('span');
             $div->class="label label-{$class}";
             $div->style="text-shadow:none; font-size:12px; font-weight:lighter";
+            $div->add($label);
 
             if ($value == 'Y')
             {
-                $div->title = TDateTime::convertToMask($object->accepted_term_policy_at, 'yyyy-mm-dd hh:ii:ss', 'dd/mm/yyyy hh:ii');
+                $contents = [];
+                $contents[] = TElement::tag('b',  _t('Date') . ':' ) . TElement::tag('p', TDateTime::convertToMask($object->accepted_term_policy_at, 'yyyy-mm-dd hh:ii:ss', 'dd/mm/yyyy hh:ii'));
+
+                if ($object->accepted_term_policy_data)
+                {
+                    $data = json_decode($object->accepted_term_policy_data, true);
+
+                    foreach($data as $key => $value)
+                    {
+                        $contents[] = TElement::tag('b', "{$key}:") . TElement::tag('p', $value);
+                    }
+                }
+                $content = TElement::tag('div', implode('', $contents), ["style"=>"max-height: 200px;overflow-y:auto;"]);
+                $div->{'poptitle'} = _t('Terms of use and privacy policy');
+                $div->{'popcontent'} = $content->getContents();
+                $div->{'popover'} = "true";
+                $div->{'poptrigger'} = "click";
+                $div->{'popside'} = "left";
+
+                $div = TElement::tag('div', $div, ['title' => _t('Click here for more information')]);
             }
-            
-            $div->add($label);
+
             return $div;
         });
 
@@ -183,6 +202,7 @@ class SystemUserList extends TStandardList
         
         // create the datagrid model
         $this->datagrid->createModel();
+        $this->datagrid->disableDefaultClick();
         
         // create the page navigation
         $this->pageNavigation = new TPageNavigation;

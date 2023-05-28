@@ -334,8 +334,77 @@ class ApplicationTranslator
         $this->messages['en'][] = 'You need read and agree to the terms of use and privacy policy';
         $this->messages['en'][] = 'Login to your account';
         $this->messages['en'][] = 'You have just successfully logged in to ^1. If you do not recognize this login, contact technical support';
+
+        // 7.5
+        $this->messages['en'][] = 'Click here for more information';
+        $this->messages['en'][] = 'You have already registered this password';
+        $this->messages['en'][] = 'Renewal password';
+        $this->messages['en'][] = 'You need to renew your password, as we have identified that you have not changed it for more than ^1 days';
+        $this->messages['en'][] = 'Global search';
+        $this->messages['en'][] = 'More';
+        $this->messages['en'][] = 'Upload file';
+        $this->messages['en'][] = 'New folder';
+        $this->messages['en'][] = 'Folder';
+        $this->messages['en'][] = 'This operation is not allowed';
+        $this->messages['en'][] = 'Parent folder';
+        $this->messages['en'][] = 'Sent out';
+        $this->messages['en'][] = 'Sent to trash';
+        $this->messages['en'][] = 'Sent to ^1';
+        $this->messages['en'][] = 'Bookmarked';
+        $this->messages['en'][] = 'Bookmarks';
+        $this->messages['en'][] = 'Trash';
+        $this->messages['en'][] = 'Send to trash';
+        $this->messages['en'][] = 'Set bookmark';
+        $this->messages['en'][] = 'Remove from bookmark';
+        $this->messages['en'][] = 'Remove from trash';
+        $this->messages['en'][] = 'Restored';
+        $this->messages['en'][] = 'Share';
+        $this->messages['en'][] = 'Details';
+        $this->messages['en'][] = 'Permanently delete';
+        $this->messages['en'][] = 'This will remove all the contents of the folder';
+        $this->messages['en'][] = 'Created at';
+        $this->messages['en'][] = 'Updated at';
+        $this->messages['en'][] = 'Have posts with this tag, please inactive';
+        $this->messages['en'][] = 'Post';
+        $this->messages['en'][] = 'Posts';
+        $this->messages['en'][] = 'Created by';
+        $this->messages['en'][] = 'until';
+        $this->messages['en'][] = 'Content';
+        $this->messages['en'][] = 'Preview';
+        $this->messages['en'][] = 'Notices';
+        $this->messages['en'][] = 'Like';
+        $this->messages['en'][] = 'Comment';
+        $this->messages['en'][] = 'Comments';
+        $this->messages['en'][] = 'Likes';
+        $this->messages['en'][] = 'See more';
+        $this->messages['en'][] = 'Phone';
+        $this->messages['en'][] = 'Address';
+        $this->messages['en'][] = 'Function';
+        $this->messages['en'][] = 'About';
+        $this->messages['en'][] = 'Expand';
+        $this->messages['en'][] = 'Contacts';
+        $this->messages['en'][] = 'Call';
+        $this->messages['en'][] = 'Searchable';
+        $this->messages['en'][] = 'Add wiki link';
+        $this->messages['en'][] = 'Last modification';
+        $this->messages['en'][] = 'Page management';
+        $this->messages['en'][] = 'Search pages';
+        $this->messages['en'][] = 'News management';
+        $this->messages['en'][] = 'List news';
+        $this->messages['en'][] = 'Properties';
         //fim
-        
+
+        // bigfive
+        $this->messages['en'][] = 'Your password must contain:';
+        $this->messages['en'][] = 'At least ^1 digits';
+        $this->messages['en'][] = 'A maximum of ^1 digits';
+        $this->messages['en'][] = 'At least 1 number';
+        $this->messages['en'][] = 'At least 1 capital letter';
+        $this->messages['en'][] = 'At least 1 lowercase letter';
+        $this->messages['en'][] = 'At least 1 special character';
+        $this->messages['en'][] = 'Incorrect username or password';
+        // fim
+
         $this->messages['pt'] = [];
         $this->messages['pt'][] = 'Arquivo não encontrado';
         $this->messages['pt'][] = 'Buscar';
@@ -647,8 +716,77 @@ class ApplicationTranslator
         $this->messages['pt'][] = 'Você precisa ler e concordar com os termos de uso e política de privacidade';
         $this->messages['pt'][] = 'Login realizado em sua conta';
         $this->messages['pt'][] = 'Você acaba de efetuar login com sucesso no ^1. Se não reconhece esse login, entre em contato com o suporte técnico.';
+
+        // 7.5
+        $this->messages['pt'][] = 'Clique aqui para obter mais informações';
+        $this->messages['pt'][] = 'Você já cadastrou essa senha';
+        $this->messages['pt'][] = 'Renovação de senha';
+        $this->messages['pt'][] = 'Você precisa renovar sua senha, pois identificamos que você não a altera há mais de ^1 dias';
+        $this->messages['pt'][] = 'Busca global';
+        $this->messages['pt'][] = 'Mais';
+        $this->messages['pt'][] = 'Adicionar arquivo';
+        $this->messages['pt'][] = 'Nova pasta';
+        $this->messages['pt'][] = 'Pasta';
+        $this->messages['pt'][] = 'Esta operação não é permitida';
+        $this->messages['pt'][] = 'Pasta pai';
+        $this->messages['pt'][] = 'Enviado para fora';
+        $this->messages['pt'][] = 'Enviado para lixeira';
+        $this->messages['pt'][] = 'Enviado para ^1';
+        $this->messages['pt'][] = 'Marcado como favorito';
+        $this->messages['pt'][] = 'Favoritos';
+        $this->messages['pt'][] = 'Lixeira';
+        $this->messages['pt'][] = 'Enviar para lixeira';
+        $this->messages['pt'][] = 'Marcar como favorito';
+        $this->messages['pt'][] = 'Remover dos favoritos';
+        $this->messages['pt'][] = 'Remover da lixeira';
+        $this->messages['pt'][] = 'Restaurado';
+        $this->messages['pt'][] = 'Compartilhar';
+        $this->messages['pt'][] = 'Detalhes';
+        $this->messages['pt'][] = 'Remover permanentemente';
+        $this->messages['pt'][] = 'Isso irá remover todos o conteudo da pasta';
+        $this->messages['pt'][] = 'Criado em';
+        $this->messages['pt'][] = 'Atualizado em';
+        $this->messages['pt'][] = 'Tem postagens com essa tag, por favor inative';
+        $this->messages['pt'][] = 'Publicação';
+        $this->messages['pt'][] = 'Publicações';
+        $this->messages['pt'][] = 'Criado por';
+        $this->messages['pt'][] = 'até';
+        $this->messages['pt'][] = 'Conteúdo';
+        $this->messages['pt'][] = 'Pré-visualização';
+        $this->messages['pt'][] = 'Notícias';
+        $this->messages['pt'][] = 'Curtir';
+        $this->messages['pt'][] = 'Comentar';
+        $this->messages['pt'][] = 'Comentários';
+        $this->messages['pt'][] = 'Curtidas';
+        $this->messages['pt'][] = 'Ver mais';
+        $this->messages['pt'][] = 'Telefone';
+        $this->messages['pt'][] = 'Endereço';
+        $this->messages['pt'][] = 'Função';
+        $this->messages['pt'][] = 'Sobre';
+        $this->messages['pt'][] = 'Expandir';
+        $this->messages['pt'][] = 'Contatos';
+        $this->messages['pt'][] = 'Ligar';
+        $this->messages['pt'][] = 'Pesquisável';
+        $this->messages['pt'][] = 'Adicionar link da wiki';
+        $this->messages['pt'][] = 'Última modificação';
+        $this->messages['pt'][] = 'Gestão de páginas';
+        $this->messages['pt'][] = 'Buscar páginas';
+        $this->messages['pt'][] = 'Gestão de notícias';
+        $this->messages['pt'][] = 'Listar notícias';
+        $this->messages['pt'][] = 'Propriedades';
         //fim
-        
+
+        // bigfive
+        $this->messages['pt'][] = 'Sua senha deve conter:';
+        $this->messages['pt'][] = 'No mínimo ^1 dígito(s)';
+        $this->messages['pt'][] = 'No máximo ^1 dígitos';
+        $this->messages['pt'][] = 'No mínimo 1 número';
+        $this->messages['pt'][] = 'No mínimo uma letra maiúscula';
+        $this->messages['pt'][] = 'No mínimo uma letra minúscula';
+        $this->messages['pt'][] = 'No mínimo um caracter especial';
+        $this->messages['pt'][] = 'Usuário ou senha incorretos';
+        // fim
+
         $this->messages['es'] = [];
         $this->messages['es'][] = 'Archivo no encontrado';
         $this->messages['es'][] = 'Buscar';
@@ -950,7 +1088,6 @@ class ApplicationTranslator
         $this->messages['es'][] = 'Eliminar variable de sesión';
         $this->messages['es'][] = 'Personificado por';
         $this->messages['es'][] = 'Acceso prohibido a esta unidad';
-        
         $this->messages['es'][] = 'Diferencia de archivo';
         $this->messages['es'][] = 'Remoto';
         $this->messages['es'][] = 'Igual';
@@ -961,6 +1098,63 @@ class ApplicationTranslator
         $this->messages['es'][] = 'Necesita leer y aceptar los términos de uso y la política de privacidad';
         $this->messages['es'][] = 'Ingrese a su cuenta';
         $this->messages['es'][] = 'Acaba de iniciar sesión correctamente en ^1. Si no reconoce este inicio de sesión, comuníquese con el soporte técnico';
+
+        // 7.5
+        $this->messages['es'][] = 'Haga clic aquí para más información';
+        $this->messages['es'][] = 'Ya has registrado esta contraseña';
+        $this->messages['es'][] = 'Renovación de contraseña';
+        $this->messages['es'][] = 'Debe renovar su contraseña, ya que hemos identificado que no la ha cambiado durante más de ^1 días';
+        $this->messages['es'][] = 'Debe renovar su contraseña, ya que hemos identificado que no la ha cambiado durante más de ^1 días';
+        $this->messages['es'][] = 'Buscar global';
+        $this->messages['es'][] = 'Más';
+        $this->messages['es'][] = 'Subir archivo';
+        $this->messages['es'][] = 'Nueva carpeta';
+        $this->messages['es'][] = 'Carpeta';
+        $this->messages['es'][] = 'Esta operación no está permitida';
+        $this->messages['es'][] = 'Carpeta principal';
+        $this->messages['es'][] = 'Enviado a fuera';
+        $this->messages['es'][] = 'Enviado a la basura';
+        $this->messages['es'][] = 'Enviado a ^1';
+        $this->messages['es'][] = 'Definido como favorito';
+        $this->messages['es'][] = 'Favoritos';
+        $this->messages['es'][] = 'Basura';
+        $this->messages['es'][] = 'Enviar a la basura';
+        $this->messages['es'][] = 'Marcar como favorito';
+        $this->messages['es'][] = 'Remover dos favoritos';
+        $this->messages['es'][] = 'Remover da basura';
+        $this->messages['es'][] = 'Restaurado';
+        $this->messages['es'][] = 'Cuota';
+        $this->messages['es'][] = 'Detalles';
+        $this->messages['es'][] = 'Remover permanentemente';
+        $this->messages['es'][] = 'Esto eliminará todo el contenido de la carpeta.';
+        $this->messages['es'][] = 'Creado el';
+        $this->messages['es'][] = 'Actualizado el';
+        $this->messages['es'][] = 'Tener publicaciones con esta etiqueta, por favor inactivo';
+        $this->messages['es'][] = 'Publicacion';
+        $this->messages['es'][] = 'Publicaciones';
+        $this->messages['es'][] = 'Criado por';
+        $this->messages['es'][] = 'asta';
+        $this->messages['es'][] = 'Contenido';
+        $this->messages['es'][] = 'Avance';
+        $this->messages['es'][] = 'Noticias';
+        $this->messages['es'][] = 'Gusto';
+        $this->messages['es'][] = 'Comentar';
+        $this->messages['es'][] = 'Comentarios';
+        $this->messages['es'][] = 'Gustos';
+        $this->messages['es'][] = 'Ver más';
+        $this->messages['es'][] = 'Teléfono';
+        $this->messages['es'][] = 'Dirección';
+        $this->messages['es'][] = 'Función';
+        $this->messages['es'][] = 'Sobre';
+        $this->messages['es'][] = 'Expandir';
+        $this->messages['es'][] = 'Contactos';
+        $this->messages['es'][] = 'Llamada';
+        $this->messages['es'][] = 'Buscable';
+        $this->messages['es'][] = 'Añadir enlace wiki';
+        $this->messages['es'][] = 'Última modifición';
+        $this->messages['es'][] = 'gestión de páginas';
+        $this->messages['es'][] = 'buscar páginas';
+        $this->messages['es'][] = 'Propiedades';
         //fim
         foreach ($this->messages as $lang => $messages)
         {

@@ -29,6 +29,8 @@ class SystemDocument extends TRecord
         parent::addAttribute('submission_date');
         parent::addAttribute('archive_date');
         parent::addAttribute('filename');
+        parent::addAttribute('system_folder_id');
+        parent::addAttribute('in_trash');
     }
 
     /**
@@ -38,9 +40,25 @@ class SystemDocument extends TRecord
     {
         return SystemDocumentCategory::find($this->category_id);
     }
+
+    /**
+     * Return folder
+     */
+    public function get_system_folder()
+    {
+        return SystemFolder::find($this->system_folder_id);
+    }
+    
+    /*
+     * Return is bookmark
+     */
+    public function isBookmark($userid)
+    {
+        return SystemDocumentBookmark::where('system_user_id', '=', $userid)->where('system_document_id', '=', $this->id)->count() > 0;
+    }
     
     /**
-     * Return category
+     * Return user
      */
     public function get_system_user()
     {
@@ -66,6 +84,10 @@ class SystemDocument extends TRecord
             
             $repository = new TRepository('SystemDocumentGroup');
             $repository->delete($criteria);
+
+            $repository = new TRepository('SystemDocumentBookmark');
+            $repository->where('system_document_id', '=', $this->id);
+            $repository->delete();
         }   
     }
     
@@ -85,7 +107,17 @@ class SystemDocument extends TRecord
         $repository->delete($criteria);
         
         $repository = new TRepository('SystemDocumentGroup');
-        $repository->delete($criteria);  
+        $repository->delete($criteria);
+        
+        $repository = new TRepository('SystemDocumentBookmark');
+        $repository->where('system_document_id', '=', $id);
+        $repository->delete();
+
+        $path = "files/documents/{$id}/".$this->filename; 
+        if (file_exists($path))
+        {
+            unlink($path);
+        }
         
         // delete the object itself
         parent::delete($id);
@@ -186,6 +218,26 @@ class SystemDocument extends TRecord
         }
         return $users;
     }
+
+    public function hasPermission($userid, $usergroupids)
+    {
+        if ($this->system_user_id == $userid)
+        {
+            return true;
+        }
+
+        if ($this->hasUserAccess($userid) || $this->hasGroupAccess($usergroupids))
+        {
+            return true;
+        }
+
+        if ($this->get_system_folder()->hasPermission($userid, $usergroupids))
+        {
+            return true;
+        }
+
+        return false;
+    }
     
     /**
      * Check if the user has access to the document
@@ -195,7 +247,7 @@ class SystemDocument extends TRecord
         return (SystemDocumentUser::where('system_user_id','=', $userid)
                                   ->where('document_id', '=', $this->id)->count() >0);
     }
-    
+
     /**
      * Check if the group has access to the document
      */

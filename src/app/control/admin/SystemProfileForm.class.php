@@ -1,6 +1,6 @@
 <?php
 
-use App\Helpers\HashHelper;
+use App\Helpers\PasswordHelper;
 
 /**
  * SystemProfileForm
@@ -22,11 +22,16 @@ class SystemProfileForm extends TPage
 
         $this->form = new BootstrapFormBuilder;
         $this->form->setFormTitle(_t('Profile'));
+        $this->form->setClientValidation(true);
         $this->form->enableCSRFProtection();
 
         $name  = new TEntry('name');
         $login = new TEntry('login');
         $email = new TEntry('email');
+        $address = new TEntry('address');
+        $phone = new TEntry('phone');
+        $function_name = new TEntry('function_name');
+        $about = new TEntry('about');
         $photo = new TFile('photo');
         $password1 = new TPassword('password1');
         $password2 = new TPassword('password2');
@@ -41,13 +46,18 @@ class SystemProfileForm extends TPage
         $password2->setSize('80%');
 
         $name->addValidation(_t('Name'), new TRequiredValidator);
-        $login->addValidation(_t('Name'), new TRequiredValidator);
-        $email->addValidation(_t('Name'), new TRequiredValidator);
+        $login->addValidation(_t('Login'), new TRequiredValidator);
         $email->addValidation(_t('Email'), new TEmailValidator);
+
+        $password1->setTip(PasswordHelper::helpTip());
 
         $this->form->addFields([new TLabel(_t('Name'))],  [$name]);
         $this->form->addFields([new TLabel(_t('Login'))], [$login]);
         $this->form->addFields([new TLabel(_t('Email'))], [$email]);
+        $this->form->addFields([new TLabel(_t('Address'))], [$address]);
+        $this->form->addFields([new TLabel(_t('Phone'))], [$phone]);
+        $this->form->addFields([new TLabel(_t('About'))], [$about]);
+        $this->form->addFields([new TLabel(_t('Function'))], [$function_name]);
         $this->form->addFields([new TLabel(_t('Photo'))], [$photo]);
         $this->form->addFields([new TLabel(_t('Password'))], [$password1]);
         $this->form->addFields([new TLabel(_t('Password confirmation'))], [$password2]);
@@ -90,8 +100,9 @@ class SystemProfileForm extends TPage
                     throw new Exception(_t('The passwords do not match'));
                 }
 
-                $hashHelper = new HashHelper();
-                $user->password = $hashHelper->hash($object->password1);
+                (new HPasswordValidator)->validate(_t('Password'), $object->password1);
+
+                $user->password = PasswordHelper::hash($object->password1);
             } else {
                 unset($user->password);
             }

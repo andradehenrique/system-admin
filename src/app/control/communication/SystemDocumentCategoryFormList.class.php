@@ -28,7 +28,7 @@ class SystemDocumentCategoryFormList extends TPage
         $this->setDatabase('communication');            // defines the database
         $this->setActiveRecord('SystemDocumentCategory');   // defines the active record
         $this->setDefaultOrder('id', 'asc');         // defines the default order
-        // $this->setCriteria($criteria) // define a standard filter
+        $this->setLimit(-1); // turn off limit for datagrid
         
         // creates the form
         $this->form = new BootstrapFormBuilder('form_SystemDocumentCategory');
@@ -48,63 +48,87 @@ class SystemDocumentCategoryFormList extends TPage
         // create the form actions
         $btn = $this->form->addAction(_t('Save'), new TAction(array($this, 'onSave')), 'far:save');
         $btn->class = 'btn btn-sm btn-primary';
-        $this->form->addAction(_t('Clear form'),  new TAction(array($this, 'onEdit')), 'fa:eraser red');
+        $this->form->addAction(_t('Clear form'),  new TAction(array($this, 'onEditCurtain')), 'fa:eraser red');
         
         // creates a DataGrid
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
-        $this->datagrid->style = 'width: 100%';
-        $this->datagrid->setHeight(320);
+        $this->datagrid->width = '100%';
         
-
         // creates the datagrid columns
         $column_id = new TDataGridColumn('id', 'Id', 'left', 50);
         $column_name = new TDataGridColumn('name', 'Name', 'left');
-
-
+        
         // add the columns to the DataGrid
         $this->datagrid->addColumn($column_id);
         $this->datagrid->addColumn($column_name);
-
         
-        // creates two datagrid actions
-        $action1 = new TDataGridAction(array($this, 'onEdit'));
-        //$action1->setUseButton(TRUE);
-        $action1->setButtonClass('btn btn-default');
-        $action1->setLabel(_t('Edit'));
-        $action1->setImage('far:edit blue');
-        $action1->setField('id');
+        $column_id->setAction( new TAction([$this, 'onReload']),   ['order' => 'id']);
+        $column_name->setAction( new TAction([$this, 'onReload']), ['order' => 'name']);
         
-        $action2 = new TDataGridAction(array($this, 'onDelete'));
-        //$action2->setUseButton(TRUE);
-        $action2->setButtonClass('btn btn-default');
-        $action2->setLabel(_t('Delete'));
-        $action2->setImage('far:trash-alt red');
-        $action2->setField('id');
+        // define row actions
+        $action1 = new TDataGridAction([$this, 'onEditCurtain'],   ['key' => '{id}'] );
+        $action2 = new TDataGridAction([$this, 'onDelete'], ['key' => '{id}'] );
         
-        // add the actions to the datagrid
-        $this->datagrid->addAction($action1);
-        $this->datagrid->addAction($action2);
+        $this->datagrid->addAction($action1, 'Edit',   'far:edit blue');
+        $this->datagrid->addAction($action2, 'Delete', 'far:trash-alt red');
         
         // create the datagrid model
         $this->datagrid->createModel();
         
-        // create the page navigation
-        $this->pageNavigation = new TPageNavigation;
-        $this->pageNavigation->enableCounters();
-        $this->pageNavigation->setAction(new TAction(array($this, 'onReload')));
-        $this->pageNavigation->setWidth($this->datagrid->getWidth());
+        // wrap objects inside a table
+        $vbox = new TVBox;
+        $vbox->style = 'width: 100%';
+        $vbox->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
         
-        $panel = new TPanelGroup;
-        $panel->add($this->datagrid);
-        $panel->addFooter($this->pageNavigation);
+        //$vbox->add($this->form);
         
-        // vertical box container
-        $container = new TVBox;
-        $container->style = 'width: 100%';
-        $container->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
-        $container->add($this->form);
-        $container->add($panel);
+        $vbox->add($panel = TPanelGroup::pack('', $this->datagrid));
         
-        parent::add($container);
+        
+        
+        // search box
+        $input_search = new TEntry('input_search');
+        $input_search->placeholder = _t('Search');
+        $input_search->setSize('100%');
+        
+        // enable fuse search by column name
+        $this->datagrid->enableSearch($input_search, 'id, name');
+        $panel->addHeaderWidget($input_search);
+        
+        $panel->addHeaderActionLink(_t('New'), new TAction([$this, 'onEditCurtain']), 'fa:plus green');
+        
+        // pack the table inside the page
+        parent::add($vbox);
+    }
+    
+    /**
+     *
+     */
+    public static function onEditCurtain($param = null) 
+    {
+        try
+        {
+            $page = new TPage;
+            $page->setTargetContainer('adianti_right_panel');
+            $page->setProperty('override', 'true');
+            $page->setPageName(__CLASS__);
+            
+            $btn_close = new TButton('closeCurtain');
+            $btn_close->onClick = "Template.closeRightPanel();";
+            $btn_close->setLabel("Fechar");
+            $btn_close->setImage('fas:times');
+            
+            $filter = new self($param);
+            $filter->form->addHeaderWidget($btn_close);
+            $filter->onEdit($param);
+            
+            $page->add($filter->form);
+            $page->setIsWrapped(true);
+            $page->show();
+        }
+        catch (Exception $e) 
+        {
+            new TMessage('error', $e->getMessage());    
+        }
     }
 }

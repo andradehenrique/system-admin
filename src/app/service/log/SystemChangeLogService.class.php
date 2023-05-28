@@ -19,6 +19,10 @@ class SystemChangeLogService
         $table = $activeRecord->getEntity();
         $pk    = $activeRecord->getPrimaryKey();
         
+        $created_col = $activeRecord->getCreatedAtColumn();
+        $updated_col = $activeRecord->getUpdatedAtColumn();
+        $deleted_col = $activeRecord->getDeletedAtColumn();
+        
         $e        = new Exception;
         $uniqid   = TTransaction::getUniqId();
         $cur_conn = serialize(TTransaction::getDatabaseInfo());
@@ -33,7 +37,7 @@ class SystemChangeLogService
         
         foreach ($lastState as $key => $value)
         {
-            if (!in_array($key, array_keys($currentState)))
+            if (!in_array($key, array_keys($currentState)) && !in_array($key, [$created_col, $updated_col, $deleted_col]) && ( (string) $value !== ''))
             {
                 // deleted
                 $log = new SystemChangeLog;
@@ -61,7 +65,7 @@ class SystemChangeLogService
         
         foreach ($currentState as $key => $value)
         {
-            if (isset($lastState[$key]) AND ($value != $lastState[$key]))
+            if (isset($lastState[$key]) && ($value != $lastState[$key]) && !in_array($key, [$created_col, $updated_col, $deleted_col]))
             {
                 // changed
                 $log = new SystemChangeLog;
@@ -85,7 +89,8 @@ class SystemChangeLogService
                 $log->php_sapi   = php_sapi_name();
                 $log->store();
             }
-            if (!isset($lastState[$key]) AND !empty($value))
+            
+            if (!isset($lastState[$key]) && !empty($value) && !in_array($key, [$created_col, $updated_col, $deleted_col]))
             {
                 // created
                 $log = new SystemChangeLog;

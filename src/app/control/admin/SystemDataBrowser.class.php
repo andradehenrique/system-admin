@@ -9,7 +9,7 @@
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    http://www.adianti.com.br/framework-license
  */
-class SystemDataBrowser extends TWindow
+class SystemDataBrowser extends TPage
 {
     private $datagrid;
     private $pageNavigation;
@@ -21,16 +21,25 @@ class SystemDataBrowser extends TWindow
     public function __construct()
     {
         parent::__construct();
-        
-        parent::setTitle(_t('Table'));
-        parent::setModal(true);
-        parent::removePadding();
 
-        if(TPage::isMobile()) {
-            parent::setSize(.95,.95);
-        } else {
-            parent::setSize(.75,.9);
+        parent::setTargetContainer('adianti_right_panel');
+
+        if (TPage::isMobile())
+        {
+            $style = new TStyle('right-panel');
+            $style->width = '95% !important';
+            $style->show(true);
         }
+        else
+        {
+            $style = new TStyle('right-panel');
+            $style->width = '75% !important';
+            $style->show(true);
+        }
+
+        $style = new TStyle('container-part');
+        $style->width = '100% !important';
+        $style->show(true);
 
         // creates the datagrid
         $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
@@ -194,6 +203,8 @@ class SystemDataBrowser extends TWindow
             $panel = new TPanelGroup($database . ' > ' . $table);
             $button = $panel->addHeaderActionLink("SQL", new TAction(["SystemSQLPanel", "onLoad"], ["database" => $database, "table" => $table]), "fa:code");
             $button->class = "btn btn-primary bg-blue";
+
+            $button = $panel->addHeaderActionLink(_t('Close'), new TAction([__CLASS__, "onClose"], ['static' => 1]), "fa:times silver");
             
             $panel->add($this->datagrid);
             $panel->addFooter($this->pageNavigation);
@@ -209,5 +220,10 @@ class SystemDataBrowser extends TWindow
         {
             new TMessage('error', $e->getMessage());
         }
+    }
+
+    public static function onClose()
+    {
+        TScript::create('Template.closeRightPanel()');
     }
 }

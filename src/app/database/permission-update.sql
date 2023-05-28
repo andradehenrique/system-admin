@@ -158,3 +158,125 @@ INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from syste
 ALTER TABLE system_user add column accepted_term_policy char(1);
 ALTER TABLE system_user add column accepted_term_policy_at TEXT;
 UPDATE system_user set accepted_term_policy='N';
+
+--- new table/columns of 7.5
+ALTER TABLE system_user add column accepted_term_policy_data TEXT;
+ALTER TABLE system_user add column phone TEXT;
+ALTER TABLE system_user add column address TEXT;
+ALTER TABLE system_user add column about TEXT;
+ALTER TABLE system_user add column function_name TEXT;
+
+CREATE TABLE system_user_old_password (
+    id INTEGER PRIMARY KEY NOT NULL,
+    system_user_id int,
+    password TEXT,
+    created_at date,
+    FOREIGN KEY(system_user_id) REFERENCES system_user(id));
+
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System documents','SystemDriveList');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemDriveList'));
+
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 2,
+                                        (select id from system_program where controller='SystemDriveList'));
+                                        
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Folder form','SystemFolderForm');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemFolderForm'));
+
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 2,
+                                        (select id from system_program where controller='SystemFolderForm'));
+                                        
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'Share Share folder','SystemFolderShareForm');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemFolderShareForm'));
+
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 2,
+                                        (select id from system_program where controller='SystemFolderShareForm'));
+                                        
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'Share Share document','SystemDocumentShareForm');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemDocumentShareForm'));
+
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 2,
+                                        (select id from system_program where controller='SystemDocumentShareForm'));
+                                        
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Document properties','SystemDocumentFormWindow');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemDocumentFormWindow'));
+
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 2,
+                                        (select id from system_program where controller='SystemDocumentFormWindow'));
+                                        
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'Folder Folder properties','SystemFolderFormView');
+
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemFolderFormView'));
+
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 2,
+                                        (select id from system_program where controller='SystemFolderFormView'));
+                                        
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Document upload','SystemDriveDocumentUploadForm');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemDriveDocumentUploadForm'));
+
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 2,
+                                        (select id from system_program where controller='SystemDriveDocumentUploadForm'));
+                                        
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Post list','SystemPostList');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemPostList'));
+
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Post form','SystemPostForm');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemPostForm'));
+
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'Post View list','SystemPostFeedView');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemPostFeedView'));
+
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 2,
+                                        (select id from system_program where controller='SystemPostFeedView'));
+                                        
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'Post Comment form','SystemPostCommentForm');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemPostCommentForm'));
+
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 2,
+                                        (select id from system_program where controller='SystemPostCommentForm'));
+                                        
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'Post Comment list','SystemPostCommentList');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemPostCommentList'));
+
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 2,
+                                        (select id from system_program where controller='SystemPostCommentList'));
+                                        
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Contacts list','SystemContactsList');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemContactsList'));
+
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Wiki list','SystemWikiList');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemWikiList'));
+
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Wiki form','SystemWikiForm');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemWikiForm'));
+
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Wiki search','SystemWikiSearchList');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemWikiSearchList'));
+
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 2,
+                                        (select id from system_program where controller='SystemWikiSearchList'));
+                                        
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Wiki view','SystemWikiView');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 1,
+                                        (select id from system_program where controller='SystemWikiView'));
+
+INSERT INTO system_program VALUES((select coalesce(max(id),0)+1 from system_program b),'System Wiki view','SystemWikiView');
+INSERT INTO system_group_program VALUES((select coalesce(max(id),0)+1 from system_group_program b), 2,
+                                        (select id from system_program where controller='SystemWikiView'));
+
+UPDATE system_user set active='Y' WHERE active is null;

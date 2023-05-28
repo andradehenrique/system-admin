@@ -64,11 +64,13 @@ class SystemPHPErrorLogView extends TPage
         $lines = array_reverse($lines);
         
         $datagrid = new BootstrapDatagridWrapper( new TQuickGrid );
-        $datagrid->disableHtmlConversion();
-        $datagrid->addQuickColumn(_t('Date'), 'date', 'left', 100);
-        $datagrid->addQuickColumn(_t('Time'), 'time', 'left', 80);
-        $datagrid->addQuickColumn(_t('Type'), 'type', 'left', 120);
-        $datagrid->addQuickColumn(_t('Message'),  'message',  'left', null);
+        //$datagrid->disableHtmlConversion();
+        $datagrid->addQuickColumn(_t('Date'), 'date', 'left', '15%');
+        $datagrid->addQuickColumn(_t('Time'), 'time', 'left', '15%');
+        $type = $datagrid->addQuickColumn(_t('Type'), 'type', 'left', '10%');
+        $datagrid->addQuickColumn(_t('Message'),  'message',  'left', '60%');
+        
+        $type->disableHtmlConversion();
         
         /*
         $a > 5;      // Notice
