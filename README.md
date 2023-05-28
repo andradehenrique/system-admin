@@ -2,7 +2,7 @@
 Projeto base do Adianti Template 7.4.1
 
 ## Requisitos
-- Docker PHP 8.1 + Apache
+- Docker PHP 8.1 FPM + Nginx
 - Docker MySQL 8
  
 ## Modificações
