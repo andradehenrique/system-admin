@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   app:
+    container_name: boilerplate_adianti_app
     build:
       context: ./docker/php
       dockerfile: Dockerfile
@@ -11,12 +12,24 @@ services:
       - database
     volumes:
       - ./src/:/var/www/html
+    networks:
+      - boilerplate_adianti
+
+  nginx:
+    image: nginx:alpine
+    container_name: boilerplate_adianti_nginx
+    depends_on:
+      - app
     ports:
       - "8080:80"
+    volumes:
+      - ./src/:/var/www/html
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
-      - system-admin
+      - boilerplate_adianti
 
   database:
+    container_name: boilerplate_adianti_db
     build:
       context: ./docker/mysql
       dockerfile: Dockerfile
@@ -28,13 +41,13 @@ services:
       - ./src/app/database/log.sql:/docker-entrypoint-initdb.d/03.sql
       - ./src/app/database/fix.sql:/docker-entrypoint-initdb.d/04.sql
     environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: system_admin
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: boilerplate_adianti
     ports:
-        - "5506:3306"
+      - "5506:3306"
     networks:
-      - system-admin
+      - boilerplate_adianti
 
 networks:
-  system-admin:
+  boilerplate_adianti:
     external: true
